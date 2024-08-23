@@ -86,19 +86,29 @@ public class CatalogDAO {
         LocalDate today = LocalDate.now();
         TypedQuery<Loan> query = em.createQuery(
                 "SELECT l FROM Loan l WHERE l.user.cardNumber = :cardNumber " +
-                        "AND (l.expectedRepaymentDate IS NULL OR l.expectedRepaymentDate >= :today) " +
-                        "AND (l.actualRepaymentDate IS NULL OR l.actualRepaymentDate >= :today)",
+                        " AND l.expectedRepaymentDate >= :today " +
+                        "OR l.actualRepaymentDate IS NULL ",
                 Loan.class);
         query.setParameter("cardNumber", cardNumber);
         query.setParameter("today", today);
         return query.getResultList();
     }
 
+    public List<Loan> gg(int cardNumber) {
+        System.out.println(cardNumber);
+        TypedQuery<Loan> query = em.createQuery(
+                "SELECT l FROM Loan l WHERE l.user.cardNumber = :cardNumber ",
+                Loan.class);
+        query.setParameter("cardNumber", cardNumber);
+        return query.getResultList();
+    }
+
+
     public List<Loan> findExpiredAndUnreturnedLoans() {
         LocalDate today = LocalDate.now();
         TypedQuery<Loan> query = em.createQuery(
                 "SELECT l FROM Loan l WHERE l.expectedRepaymentDate < :today " +
-                        "AND l.actualRepaymentDate IS NULL",
+                        "OR l.actualRepaymentDate IS NULL",
                 Loan.class);
         query.setParameter("today", today);
         return query.getResultList();

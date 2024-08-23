@@ -57,9 +57,10 @@ public class Application {
         System.out.println("----------------es 6--------------------");
         System.out.println(ct.findByPartialTitle("t"));
         System.out.println("----------------es 7--------------------");
-        System.out.println(ct.findByLoansFromCardNumber(16));
+        System.out.println(ct.findByLoansFromCardNumber(6582));
         System.out.println("----------------es 8--------------------");
         System.out.println(ct.findExpiredAndUnreturnedLoans());
+        System.out.println(em.createQuery("SELECT l FROM Loan l  ").getResultList());
 
 
 //        while (true) {
